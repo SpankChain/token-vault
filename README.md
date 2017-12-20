@@ -36,5 +36,5 @@ A testnet deployment of the vault can be found at
 
 SPANK token address `0x105b93e9aba04a88d066e4bfb4b26d0182118503`
 
-Token vault address `0x7fdba4dcd8e15fc2ae9f6fa78bd08b14bb946e2d
+Token vault address `0x7fdba4dcd8e15fc2ae9f6fa78bd08b14bb946e2d`
 
