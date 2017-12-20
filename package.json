@@ -1,0 +1,34 @@
+{
+  "name": "token-vault",
+  "version": "1.0.0",
+  "description": "Spank Token Timelocked Contract",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "async": "^2.6.0",
+    "babel-register": "^6.26.0",
+    "csv-parse": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "bignumber.js": "^5.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpankChain/token-vault.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SpankChain/token-vault/issues"
+  },
+  "homepage": "https://github.com/SpankChain/token-vault#readme"
+}
