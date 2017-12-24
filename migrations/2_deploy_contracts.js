@@ -12,11 +12,11 @@ let endFreeze = Math.floor(new Date().getTime()/1000)+20000
 let tokensInVault = 101399935000000000000000
 
 module.exports = function(deployer) {
-  SpankToken.new(tSupply, name, decimals, symbol).then((res) => {
-    token = res.address
-    console.log('Spank Token: '+ token)
-    TokenVault.new(endFreeze, token, tokensInVault).then((res) => {
-      console.log('Token Vault: '+ res.address)
-    })
-  })
+  // SpankToken.new(tSupply, name, decimals, symbol).then((res) => {
+  //   token = res.address
+  //   console.log('Spank Token: '+ token)
+  //   TokenVault.new(endFreeze, token, tokensInVault).then((res) => {
+  //     console.log('Token Vault: '+ res.address)
+  //   })
+  // })
 }
