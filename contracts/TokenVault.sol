@@ -22,16 +22,16 @@ import "./Ownable.sol";
 contract TokenVault is Ownable {
 
     /** How many investors we have now */
-    uint public investorCount;
+    uint public investorCount = 0;
 
     /** Sum from the spreadsheet how much tokens we should get on the contract. If the sum does not match at the time of the lock the vault is faulty and must be recreated.*/
-    uint public tokensToBeAllocated;
+    uint public tokensToBeAllocated = 0;
 
     /** How many tokens investors have claimed so far */
-    uint public totalClaimed;
+    uint public totalClaimed = 0;
 
     /** How many tokens our internal book keeping tells us to have at the time of lock() when all investor data has been loaded */
-    uint public tokensAllocatedTotal;
+    uint public tokensAllocatedTotal = 0;
 
     /** How much we have allocated to the investors invested */
     mapping(address => uint) public balances;
@@ -40,10 +40,10 @@ contract TokenVault is Ownable {
     mapping(address => uint) public claimed;
 
     /** When our claim freeze is over (UNIX timestamp) */
-    uint public freezeEndsAt;
+    uint public freezeEndsAt = 0;
 
     /** When this vault was locked (UNIX timestamp) */
-    uint public lockedAt;
+    uint public lockedAt = 0;
 
     /** We can also define our own token, which will override the ICO one ***/
     HumanStandardToken public token;
@@ -134,7 +134,7 @@ contract TokenVault is Ownable {
         require(lockedAt == 0);
 
         // Transfer all tokens on this contract back to the owner
-        token.transfer(owner, token.balanceOf(address(this)));
+        require(token.transfer(owner, token.balanceOf(address(this))));
     }
 
     /**
@@ -169,7 +169,7 @@ contract TokenVault is Ownable {
 
         totalClaimed += amount;
 
-        token.transfer(investor, amount);
+        require(token.transfer(investor, amount));
 
         Distributed(investor, amount);
     }
