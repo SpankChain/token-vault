@@ -44,8 +44,11 @@ contract VaultToken is StandardToken {
     function setVaultAddress(address _tokenVault) returns(bool success) {
         // only once
         require(vaultSet == false);
+        // check that the token contract has a vault balance
+        require(token.balanceOf(_tokenVault) >= totalSupply);
         require(_tokenVault != 0x0);
         vault = TokenVault(_tokenVault);
+        // check to be sure the token vault has allocated this contract tokens
         require(vault.balances(this) == totalSupply);
         vaultSet = true;
     }
