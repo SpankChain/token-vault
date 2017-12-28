@@ -20,7 +20,7 @@ contract VaultToken is StandardToken {
     string public version = 'H0.1';       //human 0.1 standard. Just an arbitrary versioning scheme.
 
     TokenVault public vault;
-    HumanStandardToken public SPANK;
+    HumanStandardToken public token;
 
     bool public vaultSet = false;
 
@@ -38,7 +38,7 @@ contract VaultToken is StandardToken {
         symbol = _tokenSymbol;                               // Set the symbol for display purposes
 
         require(_lockedToken != 0x0);
-        SPANK = HumanStandardToken(_lockedToken);
+        token = HumanStandardToken(_lockedToken);
     }
 
     function setVaultAddress(address _tokenVault) returns(bool success) {
@@ -60,7 +60,7 @@ contract VaultToken is StandardToken {
         // it will throw if transfer fails
         transfer(0x0, _balance);
         totalSupply -= _balance;
-        SPANK.transfer(msg.sender, _balance);
+        require(token.transfer(msg.sender, _balance));
         return true;
     }
 
