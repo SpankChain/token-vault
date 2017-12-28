@@ -58,7 +58,7 @@ contract VaultToken is StandardToken {
     function redeem() returns(bool success) {
         uint256 _balance = balances[msg.sender];
         // it will throw if transfer fails
-        transferFrom(msg.sender, 0x0, _balance);
+        transfer(0x0, _balance);
         totalSupply -= _balance;
         SPANK.transfer(msg.sender, _balance);
         return true;
