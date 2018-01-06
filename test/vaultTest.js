@@ -1,6 +1,8 @@
 'use strict'
 
 import {increaseTimeTo, duration} from './helpers/increaseTime'
+const utils = require('./helpers/utils')
+
 
 let fs = require('fs')
 let parse = require('csv-parse')
@@ -28,6 +30,7 @@ let tokensInVault = 101399935000000000000000
 
 
 contract('Timelock', function(accounts) {
+  console.log(accounts[0])
   it("Vault & Token deployed", async function() {
     token = await Token.new(tSupply, name, decimals, symbol)
     vault = await TokenVault.new(endFreeze, token.address, tokensInVault)
@@ -44,10 +47,9 @@ contract('Timelock', function(accounts) {
   })
 
   it("Non-owner can't load the participants", async function() {
-    await vault.setInvestor(accounts[2], 1337, {from:accounts[1]})
-    let loaded = await vault.tokensAllocatedTotal()
+    await utils.assertThrowsAsync(
+      () => vault.setInvestor(accounts[2], 1337, {from:accounts[1]}), 'VM Exception while processing transaction: revert')
 
-    assert.equal(loaded, 0, "vault allowed loading from Non-owner")
   })
 
   it("Loads the participants", async function() {
@@ -64,7 +66,10 @@ contract('Timelock', function(accounts) {
   it("Non-Owner can't lock a loaded vault", async function() {
     await token.transfer(vault.address, tokensInVault)
     let vaultBalance = await token.balanceOf(vault.address)
-    await vault.lock({from: accounts[2]})
+
+    await utils.assertThrowsAsync(
+      () => vault.lock({from: accounts[2]}), 'VM Exception while processing transaction: revert')
+
     let locked = await vault.lockedAt()
     let state = await vault.getState()
 
@@ -91,32 +96,36 @@ contract('Timelock', function(accounts) {
   })
 
   it("Owner can't recover tokens on a locked vault", async function() {
-    await vault.recoverFailedLock()
+    await utils.assertThrowsAsync(
+      () => vault.recoverFailedLock(), 'VM Exception while processing transaction: revert')
+
     let vaultBalance = await token.balanceOf(vault.address)
 
     assert.equal(vaultBalance, tokensInVault, "owner took locked funds")
   })
 
   it("Token holder can't claim before vault time ends", async function() {
-    await vault.claim()
+    await utils.assertThrowsAsync(
+      () => vault.claim(), 'VM Exception while processing transaction: revert')
+
     let claim = await vault.totalClaimed()
     assert.equal(claim, 0, "vault allowed a premature claim")
   })
 
   it("Token holder can claim after vault time ends", async function() {
     let newTime = Math.floor(new Date().getTime()/1000) + 20000
-    await increaseTimeTo(newTime)
+    await utils.increaseTimeTo(newTime)
     await vault.claim()
     let claim = await vault.totalClaimed()
-    assert.equal(claim, 189723600000000000000, "vault didnt allow a claim")
+    assert.equal(claim, 14962640000000000000000, "vault didnt allow a claim")
   })
 
 
   it("Non-Token holder can't claim", async function() {
-    await vault.claim({from: accounts[2]})
+    await utils.assertThrowsAsync(
+      () => vault.claim({from: accounts[2]}), 'VM Exception while processing transaction: revert')
+
     let claim = await vault.claimed(accounts[2])
     assert.equal(claim, 0, "vault allowed an unauthorized claim")
   })
-
-
 })

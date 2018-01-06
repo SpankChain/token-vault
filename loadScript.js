@@ -7,9 +7,9 @@ const TokenVault = artifacts.require("./TokenVault.sol")
 const Token = artifacts.require("./HumanStandardToken.sol")
 
 let endFreeze = Math.floor(new Date().getTime()/1000)+20000
-let tokensInVault = 101399935000000000000000
-let tokenAddress = '0x105b93e9aba04a88d066e4bfb4b26d0182118503'
-let vaultAddress = '0x7fdba4dcd8e15fc2ae9f6fa78bd08b14bb946e2d'
+let tokensInVault = 13641311623900000000000000
+let tokenAddress = '0xcab7da16412d8243f211d5269a564d06dfbcdb29'
+let vaultAddress = '0x07f967284ebb00d9d1e9311b112c552b3737ef5b'
 
 let csvFile = '/investors.csv'
 let csv = loader(path.join(__dirname, csvFile))
