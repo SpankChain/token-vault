@@ -8,7 +8,7 @@ var account
 if(test){
   account = "0x01da6f5f5c89f3a83cc6bebb0eafc1f1e1c4a303"
   if(rinkeby){
-    account = "0xa84135fdbd790a6feeffd204b14a103bb2e41e92"
+    account = "0x1e8524370b7caf8dc62e3effbca04ccc8e493ffe"
   }
 }
 
